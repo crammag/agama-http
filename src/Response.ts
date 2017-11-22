@@ -1,10 +1,12 @@
 
+import {AssignableObject} from './__lib__/@agama/types';
+
 
 export interface Response<T> {
 
     status: number;
     statusText: string;
-    header: Object;
+    headers: AssignableObject<any>;
     data: T;
 
 }

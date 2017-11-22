@@ -31,12 +31,20 @@ export = function(method: string, url: string, config: PlatformRequestConfig): R
             //     return reject(new Error(`HttpError ${xhr.status}: ${xhr.statusText}`));
             // }
 
+
+            let headers = xhr.getAllResponseHeaders().split('\r\n').reduce((obj, val) => {
+                if(val){
+                    let splitted = val.split(':');
+                    obj[splitted[0].toLowerCase()] = splitted[1].trim();
+                }
+                return obj;
+            },{});
+
             return resolve({
                 status: xhr.status,
                 statusText: xhr.statusText,
                 data: xhr.responseText,
-                //TODO: Recojer header
-                header: null
+                headers: headers
             });
         };
 

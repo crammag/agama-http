@@ -35,15 +35,10 @@ export = function(method: string, url: string, config: PlatformRequestConfig): R
                 status: res.statusCode,
                 statusText: res.statusMessage,
                 data: data,
-                //TODO: Recojer header
-                header: null
+                //TODO: Recojer headers
+                headers: res.headers
             }));
 
-        });
-
-        //TODO: just temporarily to see that is really aborting the request
-        req.on('abort', () => {
-            console.log('aborting node request');
         });
 
         req.on('error', (err) => {

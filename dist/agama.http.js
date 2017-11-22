@@ -730,7 +730,7 @@ module.exports = function (method, url, config) {
                 status: xhr.status,
                 statusText: xhr.statusText,
                 data: xhr.responseText,
-                //TODO: Recojer header
+                //TODO: Recojer headers
                 header: null
             });
         };
