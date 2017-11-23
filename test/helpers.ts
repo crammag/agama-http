@@ -4,6 +4,7 @@ import {equal, deepEqual} from 'assert';
 import {get, post} from '..';
 import {QueryStringFormatter} from '../src';
 import {JsonFormatter} from '../src/formatters/JsonFormatter';
+import {testHeaders} from './util/TestHeaders';
 
 
 describe('helpers', () => {
@@ -83,6 +84,112 @@ describe('helpers', () => {
             });
 
         });
+
+    });
+
+    describe('headers', () => {
+
+
+        it('httpbin.org/get', done => {
+
+            let url = 'https://httpbin.org/get';
+            let configHeaders = {
+                match: {
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Access-Control-Allow-Origin': '*',
+                    'Connection': 'close',
+                    'Content-Type': 'application/json',
+                    'Server': 'meinheld/0.6.1',
+                    'Via': '1.1 vegur',
+                    'X-Powered-By': 'Flask',
+                }, exist: {
+                    'Content-Length': '501',
+                    'Date': 'Thu, 23 Nov 2017 17:32:18 GMT',
+                    'X-Processed-Time': '0.000707149505615'
+                }
+            };
+
+            testHeaders(url, configHeaders).then(done).catch(done);
+
+        });
+
+        it('wwww.google.es', done => {
+
+            let url = 'https://www.google.es/';
+
+            let configHeaders = {
+                match: {
+                    'alt-svc': 'hq=":443"; ma=2592000; quic=51303431; quic=51303339; quic=51303338; quic=51303337; quic=51303335,quic=":443"; ma=2592000; v="41,39,38,37,35"',
+                    'cache-control': 'private, max-age=0',
+                    // 'content-encoding': 'br',
+                    'content-type': 'text/html; charset=ISO-8859-1',
+                    expires: '-1',
+                    server: 'gws',
+                    // 'strict-transport-security': 'max-age=3600',
+                    // 'X-Firefox-Spdy': 'h2',
+                    'x-frame-options': 'SAMEORIGIN',
+                    'x-xss-protection': '1; mode=block'
+                }, exist: {
+                    date: 'Thu, 23 Nov 2017 18:20:42 GMT',
+                }
+            };
+
+            testHeaders(url, configHeaders).then(done).catch(done);
+
+        });
+
+
+        // describe('www.google.es', () => {
+        //
+        //     it('headers should match firefox headers', done => {
+        //
+        //         let firefoxHeaders = {
+        //             'Access-Control-Allow-Credentials': 'true',
+        //             'Access-Control-Allow-Origin': '*',
+        //             'Connection': 'close',
+        //             'Content-Type': 'application/json',
+        //             'Server': 'meinheld/0.6.1',
+        //             'Via': '1.1 vegur',
+        //             'X-Powered-By': 'Flask',
+        //         };
+        //
+        //         get<string>('https://www.google.es',).then((res) => {
+        //             let headers = Object.keys(firefoxHeaders);
+        //
+        //             headers.forEach(val => {
+        //                 deepEqual(
+        //                     res.headers[val.toLowerCase()],
+        //                     firefoxHeaders[val]
+        //                 );
+        //             });
+        //
+        //             done();
+        //         }).catch(done);
+        //     });
+        //
+        //     it('headers should at least exist on response', done => {
+        //
+        //         let firefoxHeaders = {
+        //             'Content-Length': '501',
+        //             'Date': 'Thu, 23 Nov 2017 17:32:18 GMT',
+        //             'X-Processed-Time': '0.000707149505615'
+        //         };
+        //
+        //         get<string>('https://www.google.es',).then((res) => {
+        //             let headers = Object.keys(firefoxHeaders);
+        //
+        //             headers.forEach(val => {
+        //                 deepEqual(
+        //                     !!res.headers[val.toLowerCase()],
+        //                     true
+        //                 );
+        //             });
+        //
+        //             done();
+        //         }).catch(done);
+        //     });
+
+        // });
 
     });
 

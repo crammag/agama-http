@@ -34,8 +34,10 @@ export = function(method: string, url: string, config: PlatformRequestConfig): R
 
             let headers = xhr.getAllResponseHeaders().split('\r\n').reduce((obj, val) => {
                 if(val){
-                    let splitted = val.split(':');
-                    obj[splitted[0].toLowerCase()] = splitted[1].trim();
+                    let separatorIndex = val.indexOf(':');
+                    let headerName = val.substr(0, separatorIndex).toLowerCase();
+
+                    obj[headerName] = val.substr(separatorIndex + 1).trim();
                 }
                 return obj;
             },{});
