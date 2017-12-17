@@ -1,18 +1,26 @@
 
 import {get} from '..';
+import {deepEqual} from "assert";
 
 
-describe('RequestPromise', () => {
+export function run() {
 
-    describe('cancel()', () => {
+    describe('RequestPromise', () => {
 
-        let rp = get('https://www.google.cat');
-        rp.then(res => {
-            console.log(res, 'this should never be printed');
+        it('cancel()', done => {
+
+            let rp = get('https://www.google.cat');
+            let response = null;
+            rp.then(res => {
+                response = res.data;
+            });
+
+            rp.cancel()
+            deepEqual(null, response);
+            done();
         });
-
-        rp.cancel()
 
     });
 
-});
+}
+
